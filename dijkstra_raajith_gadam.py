@@ -232,29 +232,43 @@ def dijkstra():
     return (explored_node, back_track, hash_map[goal_point])
 
 
-# animate node exploration and backtracking
+
+# animates node exploration and backtracking
 def animater(explored_node, back_track, path):
     f = cv2.VideoWriter_fourcc(*'XVID')
     out = cv2.VideoWriter(str(path), f, 20.0, (x_bounds, y_bounds))
-    field = np.zeros((y_bounds, x_bounds, 3), dtype=np.uint8)
 
+    # Initialize the entire grid in red
+    field = np.ones((y_bounds, x_bounds, 3), dtype=np.uint8) * np.array([0, 0, 255], dtype=np.uint8)
 
-    for state in explored_node:
-        field[int(y_bounds - state[0]), int(state[1] - 1)] = (200, 255, 200)
-        out.write(field)
-        cv2.imshow('result', field)
-        cv2.waitKey(1)
+    # Highlights obstacles in black
+    for y in range(1, y_bounds + 1):
+        for x in range(1, x_bounds + 1):
+            if all_obstacles(y, x):
+                field[int(y_bounds - y), int(x - 1)] = np.array([0, 0, 0], dtype=np.uint8)
 
+    # Visualizes explored nodes in green
+    update_frequency = 50
+    for i, state in enumerate(explored_node):
+        field[int(y_bounds - state[0]), int(state[1] - 1)] = np.array([0, 255, 0],
+                                                                      dtype=np.uint8)  # Green color for explored area
+        if i % update_frequency == 0:
+            out.write(field)
+            cv2.imshow('result', field)
+            cv2.waitKey(1)
 
+    # Visualized the optimal path in blue
     for state in back_track:
-        field[int(y_bounds - state[0]), int(state[1] - 1)] = (255, 0, 0)
+        field[int(y_bounds - state[0]), int(state[1] - 1)] = np.array([255, 0, 0],
+                                                                      dtype=np.uint8)  # Blue color for optimal path
         out.write(field)
         cv2.imshow('result', field)
-        cv2.waitKey(50)  
+        cv2.waitKey(10)
 
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     out.release()
+
 
 
 
