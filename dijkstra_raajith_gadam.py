@@ -250,7 +250,7 @@ def animater(explored_node, back_track, path):
             if (field[int(y_bounds - y), int(x - 1), 0] == 0 and field[int(y_bounds - y), int(x - 1), 1] == 0 and field[
                 int(y_bounds - y), int(x - 1), 2] == 0):
                 if (boundary(y, x) and all_obstacles(y, x) == False):
-                    field[int(y_bounds - y), int(x - 1)] = (0, 0, 255) #highlights unexplored area
+                    field[int(y_bounds - y), int(x - 1)] = (0, 0, 0) #highlights unexplored area
                     if (count % 100 == 0):
                         out.write(field)
                     count = count + 1
