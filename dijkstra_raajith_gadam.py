@@ -237,34 +237,25 @@ def animater(explored_node, back_track, path):
     f = cv2.VideoWriter_fourcc(*'XVID')
     out = cv2.VideoWriter(str(path), f, 20.0, (x_bounds, y_bounds))
     field = np.zeros((y_bounds, x_bounds, 3), dtype=np.uint8)
-    count = 0
+
+
     for state in explored_node:
-        field[int(y_bounds - state[0]), int(state[1] - 1)] = (200, 255, 200) #highlights explored area
-        if (count % 100 == 0):
-            out.write(field)
-        count = count + 1
+        field[int(y_bounds - state[0]), int(state[1] - 1)] = (200, 255, 200)
+        out.write(field)
+        cv2.imshow('result', field)
+        cv2.waitKey(1)
 
-    count = 0
-    for y in range(1, y_bounds + 1):
-        for x in range(1, x_bounds + 1):
-            if (field[int(y_bounds - y), int(x - 1), 0] == 0 and field[int(y_bounds - y), int(x - 1), 1] == 0 and field[
-                int(y_bounds - y), int(x - 1), 2] == 0):
-                if (boundary(y, x) and all_obstacles(y, x) == False):
-                    field[int(y_bounds - y), int(x - 1)] = (0, 0, 0) #highlights unexplored area
-                    if (count % 100 == 0):
-                        out.write(field)
-                    count = count + 1
 
-    if (len(back_track) > 0):
-        for state in back_track:
-            field[int(y_bounds - state[0]), int(state[1] - 1)] = (255, 0, 0) #highlights backtracking line
-            out.write(field)
-            cv2.imshow('result', field)
-            cv2.waitKey(5)
+    for state in back_track:
+        field[int(y_bounds - state[0]), int(state[1] - 1)] = (255, 0, 0)
+        out.write(field)
+        cv2.imshow('result', field)
+        cv2.waitKey(50)  
 
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     out.release()
+
 
 
 # main code
