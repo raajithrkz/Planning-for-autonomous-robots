@@ -29,8 +29,8 @@ def all_obstacles(y, x):
     # please note that the point coordinates given below are already accounted for the clearance value of 5
     (x1, y1) = (95, 95)
     (x2, y2) = (180, 95)
-    (x3, y3) = (180, 455)
-    (x4, y4) = (95, 455)
+    (x3, y3) = (180, 495)
+    (x4, y4) = (95, 495)
     side1 = y - y1
     side2 = x - x2
     side3 = y - y3
